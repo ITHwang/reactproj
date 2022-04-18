@@ -15,8 +15,9 @@ const AppProvider = ({ children }) => {
       const response = await fetch(`${url}${searchTerm}`);
       const data = await response.json();
       const { drinks } = data;
+      let newCocktails = [];
       if (drinks) {
-        const newCocktails = drinks.map((item) => {
+        newCocktails = drinks.map((item) => {
           const { idDrink, strDrink, strDrinkThumb, strAlcoholic, strGlass } =
             item;
           return {
@@ -27,8 +28,8 @@ const AppProvider = ({ children }) => {
             glass: strGlass,
           };
         });
-        setCocktails(newCocktails);
       }
+      setCocktails(newCocktails);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -37,7 +38,7 @@ const AppProvider = ({ children }) => {
   }, [searchTerm]);
   useEffect(() => {
     fetchDrinks();
-  }, []);
+  }, [searchTerm]);
 
   return (
     <AppContext.Provider
